@@ -1,14 +1,13 @@
 package cmd
 
 import (
+	"github.com/rfaulhaber/clock/data"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+	"log"
 	"os"
 	"path/filepath"
-	"log"
-	"github.com/rfaulhaber/clock/data"
 	"time"
-	"github.com/spf13/viper"
-	"os/user"
 	"fmt"
 )
 
@@ -20,8 +19,8 @@ var (
 var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "records start time",
-	Long: `Creates and records the start time of a log`,
-	Run: RunStart,
+	Long:  `Creates and records the start time of a log`,
+	Run:   RunStart,
 }
 
 func init() {
@@ -42,25 +41,27 @@ func init() {
 func RunStart(cmd *cobra.Command, args []string) {
 	dir := getDir()
 
+	if dir == "" {
+		log.Fatalln("write dir not specified")
+	}
+
 	currentDir := filepath.Join(dir, ".current")
 
 	err := os.Mkdir(currentDir, 0700)
-
-	u, _ := user.Current()
-
-	fmt.Println(u.Username)
 
 	if err != nil && !os.IsExist(err) {
 		log.Fatalln(err)
 	}
 
-	f, err := os.OpenFile(filepath.Join(currentDir, logTag + "current"), os.O_CREATE | os.O_WRONLY, 0700)
+	f, err := os.OpenFile(filepath.Join(currentDir, logTag+"-current"), os.O_CREATE|os.O_WRONLY, 0700)
 
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	record := data.Record{time.Now(), time.Time{}}
+	startTime := time.Now()
+
+	record := data.Record{startTime, time.Time{}}
 
 	table := data.RecordTable{Tag: logTag, Records: []*data.Record{&record}}
 
@@ -69,6 +70,8 @@ func RunStart(cmd *cobra.Command, args []string) {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	fmt.Printf("started at: %d/%d/%d %02d:%02d:%02d\n", startTime.Month(), startTime.Day(), startTime.Year(), startTime.Hour(), startTime.Minute(), startTime.Second())
 }
 
 func getDir() string {

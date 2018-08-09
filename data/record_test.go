@@ -62,9 +62,9 @@ func TestRecordTable_Write(t *testing.T) {
 	testStart := time.Date(1992, time.December, 27, 15, 15, 15, 0, time.UTC)
 	testEnd := testStart.Add(8 * time.Hour)
 
-	testCases := []struct{
+	testCases := []struct {
 		expectedStr string
-		input RecordTable
+		input       RecordTable
 	}{
 		{
 			expectedStr: `Tag = "test tag"

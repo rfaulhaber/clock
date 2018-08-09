@@ -11,7 +11,7 @@ import (
 
 var (
 	cfgFile string
-	logTag string
+	logTag  string
 )
 
 // TODO add writers to stdout, stderr
