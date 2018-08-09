@@ -1,12 +1,12 @@
 package data
 
 import (
+	"bytes"
+	"github.com/BurntSushi/toml"
+	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
-		"github.com/stretchr/testify/assert"
-			"bytes"
-	"github.com/BurntSushi/toml"
-	)
+)
 
 func TestNewRecord(t *testing.T) {
 	testStart := time.Date(1992, time.December, 27, 15, 15, 15, 0, time.UTC)
@@ -19,8 +19,8 @@ func TestNewRecord(t *testing.T) {
 }
 
 func TestRecord_Duration(t *testing.T) {
-	testCase := []struct{
-		Input *Record
+	testCase := []struct {
+		Input    *Record
 		Expected time.Duration
 	}{
 		{
@@ -62,22 +62,29 @@ func TestRecordTable_Write(t *testing.T) {
 	testStart := time.Date(1992, time.December, 27, 15, 15, 15, 0, time.UTC)
 	testEnd := testStart.Add(8 * time.Hour)
 
-	testTable := RecordTable{"test tag", []*Record{NewRecord(testStart, testEnd)}}
-
-	var buf bytes.Buffer
-
-	err := testTable.Write(&buf)
-
-	assert.NoError(t, err)
-
-	expectedStr := `Tag = "test tag"
+	testCases := []struct{
+		expectedStr string
+		input RecordTable
+	}{
+		{
+			expectedStr: `Tag = "test tag"
 
 [[Records]]
   start = 1992-12-27T15:15:15Z
   stop = 1992-12-27T23:15:15Z
-`
+`,
+			input: RecordTable{"test tag", []*Record{NewRecord(testStart, testEnd)}},
+		},
+	}
 
-	assert.Equal(t, expectedStr, buf.String())
+	for _, tc := range testCases {
+		var buf bytes.Buffer
+
+		err := tc.input.Write(&buf)
+
+		assert.NoError(t, err)
+		assert.Equal(t, tc.expectedStr, buf.String())
+	}
 }
 
 func TestRecordTable_Add(t *testing.T) {

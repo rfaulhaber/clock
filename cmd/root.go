@@ -4,12 +4,17 @@ import (
 	"fmt"
 	"os"
 
-	homedir "github.com/mitchellh/go-homedir"
+	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
-var cfgFile string
+var (
+	cfgFile string
+	logTag string
+)
+
+// TODO add writers to stdout, stderr
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -23,7 +28,9 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	//	Run: func(cmd *cobra.Command, args []string) {
+	//
+	//	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -42,10 +49,7 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.clock.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().StringVarP(&logTag, "tag", "t", "", "specifies tag to either save, stop, or report on")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -63,6 +67,7 @@ func initConfig() {
 
 		// Search config in home directory with name ".clock" (without extension).
 		viper.AddConfigPath(home)
+		viper.AddConfigPath(".")
 		viper.SetConfigName(".clock")
 	}
 
