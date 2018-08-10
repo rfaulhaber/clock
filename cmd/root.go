@@ -2,35 +2,25 @@ package cmd
 
 import (
 	"fmt"
-	"os"
-
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"os"
 )
 
 var (
 	cfgFile string
 	logTag  string
+	saveDir string
 )
-
-// TODO add writers to stdout, stderr
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "clock",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) {
-	//
-	//	},
+	Short: "Generates logs of start and stop times via the CLI",
+	Long: `clock is a CLI command for creating logs of start and stop times, 
+and generating reports based on that, much like a time card.
+`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -50,6 +40,7 @@ func init() {
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.clock.yaml)")
 	rootCmd.PersistentFlags().StringVarP(&logTag, "tag", "t", "", "specifies tag to either save, stop, or report on")
+	rootCmd.PersistentFlags().StringVarP(&saveDir, "dir", "d", "", "directory to save this log to")
 }
 
 // initConfig reads in config file and ENV variables if set.
