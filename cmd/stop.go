@@ -1,14 +1,14 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/pelletier/go-toml"
 	"github.com/rfaulhaber/clock/data"
 	"github.com/spf13/cobra"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"time"
-	"fmt"
-	"os"
 )
 
 // stopCmd represents the stop command
@@ -80,7 +80,7 @@ func RunStop(cmd *cobra.Command, args []string) {
 func getFileTimestamp(t time.Time, tag string) string {
 	dateTemplate := "%02d-%02d-%02d"
 	if tag != "" {
-		return fmt.Sprintf("%s-" + dateTemplate, tag, t.Year(), t.Month(), t.Day())
+		return fmt.Sprintf("%s-"+dateTemplate, tag, t.Year(), t.Month(), t.Day())
 	} else {
 		return fmt.Sprintf(dateTemplate, t.Year(), t.Month(), t.Day())
 	}
