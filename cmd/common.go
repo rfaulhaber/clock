@@ -14,9 +14,9 @@ var (
 func getDir() string {
 	if saveDir == "" {
 		return viper.GetString("saveDir")
+	} else {
+		return saveDir
 	}
-
-	return saveDir
 }
 
 func normalizeCurrent(tag string) string {
