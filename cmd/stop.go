@@ -41,7 +41,9 @@ func RunStop() error {
 
 	currentDir := filepath.Join(dir, ".current")
 
-	currentFile, err := ioutil.ReadFile(filepath.Join(currentDir, normalizeCurrent(logTag)))
+	currentFilePath := filepath.Join(currentDir, normalizeCurrent(logTag))
+
+	currentFile, err := ioutil.ReadFile(currentFilePath)
 
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -82,6 +84,12 @@ func RunStop() error {
 	}
 
 	stdout.Println("duration: ", record.Duration())
+
+	err = os.Remove(currentFilePath)
+
+	if err != nil {
+		return errors.Wrap(err, "remove current")
+	}
 
 	// TODO implement cleanup
 

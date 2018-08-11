@@ -14,7 +14,7 @@ import (
 )
 
 func TestRunStart(t *testing.T) {
-	tmpDir, err := ioutil.TempDir(".", "clocktest")
+	tmpDir, err := ioutil.TempDir("/tmp", "clocktest")
 
 	defer os.RemoveAll(tmpDir)
 
@@ -79,6 +79,52 @@ func TestRunStopBeforeStart(t *testing.T) {
 
 	assert.Error(t, err)
 	assert.Equal(t, "Cannot find any records. You must run `start` before calling stop.", err.Error())
+}
+
+func TestRunStop(t *testing.T) {
+	tmpDir, err := ioutil.TempDir("/tmp", "clocktest")
+
+	defer os.RemoveAll(tmpDir)
+
+	if err != nil {
+		panic(err)
+	}
+
+	var outBuf bytes.Buffer
+
+	stdout = log.New(&outBuf, "", 0)
+
+	saveDir = tmpDir
+
+	runStartNoArg()
+
+	RunStop()
+
+	infos, err := ioutil.ReadDir(tmpDir)
+
+	assert.NoError(t, err)
+	assert.Equal(t, 1, len(infos))
+
+	for _, info := range infos {
+		if info.Name() == ".current" {
+			continue
+		}
+
+		assert.False(t, info.IsDir())
+	}
+
+	b, err := ioutil.ReadFile(infos[1].Name())
+
+	assert.NoError(t, err)
+
+	var table data.RecordTable
+
+	err = toml.Unmarshal(b, &table)
+
+	assert.NoError(t, err)
+
+	assert.False(t, table.Records[0].Start.IsZero())
+	assert.False(t, table.Records[0].Stop.IsZero())
 }
 
 func runStartNoArg() {
