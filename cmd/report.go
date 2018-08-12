@@ -8,6 +8,7 @@ import (
 	"github.com/rfaulhaber/clock/data"
 	"io/ioutil"
 	"bytes"
+	"os"
 )
 
 const parseTemplate = "01-02-2006"
@@ -74,7 +75,7 @@ func RunReport() error {
 	for _, fn := range filenames {
 		b, err := ioutil.ReadFile(fn)
 
-		if err != nil {
+		if err != nil && !os.IsNotExist(err) {
 			return errors.Wrap(err, "could not read file")
 		}
 
