@@ -1,13 +1,15 @@
 # clock
+
+[![pipeline status](https://gitlab.com/rfaulhaber/clock/badges/master/pipeline.svg)](https://gitlab.com/rfaulhaber/clock/commits/master)
+
 CLI tool for time tracking and record keeping.
 
 By default, this program looks for $HOME/.clock.yaml to know where to write
 to, otherwise it'll save to the `--dir` flag, otherwise $HOME/.clock.
 
-```
-clock is a CLI command for creating logs of start and stop times, 
-and generating reports based on that, much like a time card.
+This program is a work in progress and not amazingly written.
 
+```
 Usage:
   clock [command]
 
