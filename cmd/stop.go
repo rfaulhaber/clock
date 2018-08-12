@@ -14,7 +14,7 @@ import (
 // stopCmd represents the stop command
 var stopCmd = &cobra.Command{
 	Use:   "stop",
-	Short: "Stops a current clock and finalizes the record.",
+	Short: "stops a current clock and finalizes the record.",
 	Long:  `Stops the current clock and finalizes the record.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		err := RunStop()
