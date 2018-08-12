@@ -54,7 +54,7 @@ func RunStart() error {
 		return errors.Wrap(err, "could not mkdir")
 	}
 
-	logFile := filepath.Join(currentDir, normalizeCurrent(logTag))
+	logFile := filepath.Join(currentDir, normalizeFile("current", logTag))
 	f, err := os.OpenFile(logFile, os.O_RDWR|os.O_CREATE, 0600)
 
 	if err != nil {

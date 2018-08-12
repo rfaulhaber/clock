@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/pelletier/go-toml"
 	"github.com/pkg/errors"
 	"github.com/rfaulhaber/clock/data"
@@ -31,8 +30,6 @@ func init() {
 }
 
 func RunStop() error {
-	// find the current record
-
 	dir := getDir()
 
 	if dir == "" {
@@ -41,7 +38,7 @@ func RunStop() error {
 
 	currentDir := filepath.Join(dir, ".current")
 
-	currentFilePath := filepath.Join(currentDir, normalizeCurrent(logTag))
+	currentFilePath := filepath.Join(currentDir, normalizeFile("current", logTag))
 
 	currentFile, err := ioutil.ReadFile(currentFilePath)
 
@@ -95,11 +92,3 @@ func RunStop() error {
 	return nil
 }
 
-func getFileTimestamp(t time.Time, tag string) string {
-	dateTemplate := "%02d-%02d-%02d"
-	if tag != "" {
-		return fmt.Sprintf("%s-"+dateTemplate, tag, t.Year(), t.Month(), t.Day())
-	} else {
-		return fmt.Sprintf(dateTemplate, t.Year(), t.Month(), t.Day())
-	}
-}

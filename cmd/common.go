@@ -4,6 +4,8 @@ import (
 	"github.com/spf13/viper"
 	"log"
 	"os"
+	"time"
+	"fmt"
 )
 
 var (
@@ -19,10 +21,20 @@ func getDir() string {
 	}
 }
 
-func normalizeCurrent(tag string) string {
+func normalizeFile(filename string, tag string) string {
 	if tag == "" {
-		return "current"
+		return filename
 	} else {
-		return logTag + "-current"
+		return tag + "-filename"
 	}
 }
+
+func getFileTimestamp(t time.Time, tag string) string {
+	dateTemplate := "%02d-%02d-%02d"
+	if tag != "" {
+		return fmt.Sprintf("%s-"+dateTemplate, tag, t.Year(), t.Month(), t.Day())
+	} else {
+		return fmt.Sprintf(dateTemplate, t.Year(), t.Month(), t.Day())
+	}
+}
+
