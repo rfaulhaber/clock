@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
+	"path/filepath"
 )
 
 var (
@@ -40,7 +41,13 @@ func init() {
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.clock.yaml)")
 	rootCmd.PersistentFlags().StringVarP(&logTag, "tag", "t", "", "specifies tag to either save, stop, or report on")
-	rootCmd.PersistentFlags().StringVarP(&saveDir, "dir", "d", "", "directory to save this log to")
+
+	// if this reports an error for some reason, we don't really care
+	home, _ := homedir.Dir()
+
+	defaultSaveDir := filepath.Join(home, ".clock")
+
+	rootCmd.PersistentFlags().StringVarP(&saveDir, "dir", "d", defaultSaveDir, "directory to save this log to")
 }
 
 // initConfig reads in config file and ENV variables if set.

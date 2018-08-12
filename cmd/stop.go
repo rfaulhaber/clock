@@ -91,9 +91,6 @@ func RunStop() error {
 		return errors.Wrap(err, "remove current")
 	}
 
-	// TODO implement cleanup
-
-	// append to today's record, divided by tag, and delete current file
 
 	return nil
 }

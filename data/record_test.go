@@ -67,13 +67,11 @@ func TestRecordTable_Write(t *testing.T) {
 		input       RecordTable
 	}{
 		{
-			expectedStr: `Tag = "test tag"
-
-[[Records]]
+			expectedStr: `[[Records]]
   start = 1992-12-27T15:15:15Z
   stop = 1992-12-27T23:15:15Z
 `,
-			input: RecordTable{"test tag", []*Record{NewRecord(testStart, testEnd)}},
+			input: RecordTable{[]*Record{NewRecord(testStart, testEnd)}},
 		},
 	}
 
@@ -90,7 +88,7 @@ func TestRecordTable_Write(t *testing.T) {
 func TestRecordTable_Add(t *testing.T) {
 	testStart := time.Date(1992, time.December, 27, 15, 15, 15, 0, time.UTC)
 	testEnd := testStart.Add(8 * time.Hour)
-	testTable := RecordTable{"test tag", []*Record{NewRecord(testStart, testEnd)}}
+	testTable := RecordTable{[]*Record{NewRecord(testStart, testEnd)}}
 
 	testTable.Add(NewRecord(testStart, testEnd))
 
@@ -100,7 +98,7 @@ func TestRecordTable_Add(t *testing.T) {
 func TestRecordTable_Update(t *testing.T) {
 	testStart := time.Date(1992, time.December, 27, 15, 15, 15, 0, time.UTC)
 	testEnd := testStart.Add(8 * time.Hour)
-	testTable := RecordTable{"test tag", []*Record{NewRecord(testStart, time.Time{})}}
+	testTable := RecordTable{[]*Record{NewRecord(testStart, time.Time{})}}
 
 	testTable.Update(testEnd)
 

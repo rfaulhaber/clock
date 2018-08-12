@@ -24,7 +24,6 @@ func (r *Record) Duration() time.Duration {
 }
 
 type RecordTable struct {
-	Tag     string `toml:",omitempty"`
 	Records []*Record
 }
 

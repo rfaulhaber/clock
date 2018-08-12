@@ -28,7 +28,8 @@ func TestRunStart(t *testing.T) {
 
 	saveDir = tmpDir
 
-	runStartNoArg()
+	err = RunStart()
+	assert.NoError(t, err)
 
 	dirStat, err := os.Stat(filepath.Join(tmpDir, ".current"))
 
@@ -96,14 +97,17 @@ func TestRunStop(t *testing.T) {
 
 	saveDir = tmpDir
 
-	runStartNoArg()
+	err = RunStart()
 
-	RunStop()
+	assert.NoError(t, err)
+
+	err  = RunStop()
+
+	assert.NoError(t, err)
 
 	infos, err := ioutil.ReadDir(tmpDir)
 
 	assert.NoError(t, err)
-	assert.Equal(t, 1, len(infos))
 
 	for _, info := range infos {
 		if info.Name() == ".current" {
@@ -113,7 +117,15 @@ func TestRunStop(t *testing.T) {
 		assert.False(t, info.IsDir())
 	}
 
-	b, err := ioutil.ReadFile(infos[1].Name())
+	var filename string
+
+	for _, info := range infos {
+		if info.Name() != ".current" {
+			filename = info.Name()
+		}
+	}
+
+	b, err := ioutil.ReadFile(filepath.Join(tmpDir, filename))
 
 	assert.NoError(t, err)
 
@@ -125,8 +137,4 @@ func TestRunStop(t *testing.T) {
 
 	assert.False(t, table.Records[0].Start.IsZero())
 	assert.False(t, table.Records[0].Stop.IsZero())
-}
-
-func runStartNoArg() {
-	RunStart(nil, []string{})
 }
