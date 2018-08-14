@@ -1,14 +1,14 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
-	"github.com/rfaulhaber/clock/internal/record"
-	"time"
-	"github.com/pkg/errors"
-	"path/filepath"
-	"io/ioutil"
 	"bytes"
+	"github.com/pkg/errors"
+	"github.com/rfaulhaber/clock/internal/record"
+	"github.com/spf13/cobra"
+	"io/ioutil"
 	"os"
+	"path/filepath"
+	"time"
 )
 
 const parseTemplate = "01-02-2006"
@@ -19,7 +19,7 @@ var startDate, endDate string
 var reportCmd = &cobra.Command{
 	Use:   "report",
 	Short: "aggregates data from logs",
-	Long: `Aggregates data from logs. By default, reports only on this week's logs.'`,
+	Long:  `Aggregates data from logs. By default, reports only on this week's logs.'`,
 	Run: func(cmd *cobra.Command, args []string) {
 		err := RunReport()
 
@@ -92,7 +92,7 @@ func RunReport() error {
 }
 
 type LogInfo struct {
-	Entries uint
+	Entries       uint
 	TotalDuration time.Duration
 }
 
@@ -101,8 +101,8 @@ func fillRange(start, stop time.Time) []time.Time {
 
 	r := make([]time.Time, int(days))
 
-	for i := 1; i < int(days) + 1; i++ {
-		r[i - 1] = start.Add(24 * time.Duration(i) * time.Hour)
+	for i := 1; i < int(days)+1; i++ {
+		r[i-1] = start.Add(24 * time.Duration(i) * time.Hour)
 	}
 
 	return r
@@ -117,4 +117,3 @@ func totalDuration(records []*record.Record) time.Duration {
 
 	return sum
 }
-

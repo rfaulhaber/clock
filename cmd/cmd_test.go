@@ -3,7 +3,7 @@ package cmd
 import (
 	"bytes"
 	"github.com/pelletier/go-toml"
-	"github.com/rfaulhaber/clock/data"
+	"github.com/rfaulhaber/clock/internal/record"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"log"
@@ -43,7 +43,7 @@ func TestRunStart(t *testing.T) {
 	assert.NoError(t, err)
 	assert.True(t, fileStat.Size() > 0)
 
-	var fileData data.RecordTable
+	var fileData record.RecordTable
 
 	b, err := ioutil.ReadFile(currentFile)
 
@@ -101,7 +101,7 @@ func TestRunStop(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	err  = RunStop()
+	err = RunStop()
 
 	assert.NoError(t, err)
 
@@ -129,7 +129,7 @@ func TestRunStop(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	var table data.RecordTable
+	var table record.RecordTable
 
 	err = toml.Unmarshal(b, &table)
 

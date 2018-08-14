@@ -60,7 +60,7 @@ func RunStop() error {
 
 	table.Records[0].Stop = time.Now()
 
-	r:= table.Records[0]
+	r := table.Records[0]
 
 	// TODO allow config file to specify date format?
 
@@ -88,7 +88,5 @@ func RunStop() error {
 		return errors.Wrap(err, "remove current")
 	}
 
-
 	return nil
 }
-

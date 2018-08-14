@@ -1,11 +1,11 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/spf13/viper"
 	"log"
 	"os"
 	"time"
-	"fmt"
 )
 
 var (
@@ -37,4 +37,3 @@ func getFileTimestamp(t time.Time, tag string) string {
 		return fmt.Sprintf(dateTemplate, t.Year(), t.Month(), t.Day())
 	}
 }
-

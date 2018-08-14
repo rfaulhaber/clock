@@ -1,12 +1,12 @@
 package cmd
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rfaulhaber/clock/internal/record"
 	"github.com/spf13/cobra"
 	"os"
 	"path/filepath"
 	"time"
-	"github.com/pkg/errors"
 )
 
 // startCmd represents the start command
@@ -58,7 +58,7 @@ func RunStart() error {
 	f, err := os.OpenFile(logFile, os.O_RDWR|os.O_CREATE, 0600)
 
 	if err != nil {
-		return errors.Wrap(err, "could not open file: " + logFile)
+		return errors.Wrap(err, "could not open file: "+logFile)
 	}
 
 	startTime := time.Now()
