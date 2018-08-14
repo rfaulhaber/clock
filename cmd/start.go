@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/rfaulhaber/clock/data"
+	"github.com/rfaulhaber/clock/internal/record"
 	"github.com/spf13/cobra"
 	"os"
 	"path/filepath"
@@ -63,9 +63,9 @@ func RunStart() error {
 
 	startTime := time.Now()
 
-	record := data.Record{Start: startTime}
+	r := record.Record{Start: startTime}
 
-	table := data.RecordTable{Records: []*data.Record{&record}}
+	table := record.RecordTable{Records: []*record.Record{&r}}
 
 	err = table.Write(f)
 

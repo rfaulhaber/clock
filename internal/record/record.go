@@ -1,4 +1,4 @@
-package data
+package record
 
 import (
 	"github.com/BurntSushi/toml"

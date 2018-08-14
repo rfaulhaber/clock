@@ -3,7 +3,7 @@ package cmd
 import (
 	"github.com/pelletier/go-toml"
 	"github.com/pkg/errors"
-	"github.com/rfaulhaber/clock/data"
+	"github.com/rfaulhaber/clock/internal/record"
 	"github.com/spf13/cobra"
 	"io/ioutil"
 	"os"
@@ -50,7 +50,7 @@ func RunStop() error {
 		return errors.Wrap(err, "read file failed")
 	}
 
-	var table data.RecordTable
+	var table record.RecordTable
 
 	err = toml.Unmarshal(currentFile, &table)
 
@@ -60,11 +60,11 @@ func RunStop() error {
 
 	table.Records[0].Stop = time.Now()
 
-	record := table.Records[0]
+	r:= table.Records[0]
 
 	// TODO allow config file to specify date format?
 
-	filename := filepath.Join(dir, getFileTimestamp(record.Start, logTag))
+	filename := filepath.Join(dir, getFileTimestamp(r.Start, logTag))
 
 	f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
 
@@ -80,7 +80,7 @@ func RunStop() error {
 		return errors.Wrap(err, "write failed")
 	}
 
-	stdout.Println("duration: ", record.Duration())
+	stdout.Println("duration: ", r.Duration())
 
 	err = os.Remove(currentFilePath)
 

@@ -27,3 +27,11 @@ Flags:
 
 Use "clock [command] --help" for more information about a command.
 ```
+
+## Roadmap
+
+- [ ] remove prefix from stdout logging
+- [ ] `report`: add `--since` flag. Reports on all dates since date specified.
+- [ ] `report`: add `--until` flag. Reports on all dates until date specified.
+- [ ] `report`: include more statistics, including average daily log, maybe
+charts.

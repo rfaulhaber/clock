@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
+	"github.com/rfaulhaber/clock/internal/record"
 	"time"
 	"github.com/pkg/errors"
 	"path/filepath"
-	"github.com/rfaulhaber/clock/data"
 	"io/ioutil"
 	"bytes"
 	"os"
@@ -65,7 +65,7 @@ func RunReport() error {
 		filenames = append(filenames, filepath.Join(dir, normalizeFile(getFileTimestamp(d, logTag), logTag)))
 	}
 
-	var records []*data.Record
+	var records []*record.Record
 
 	for _, fn := range filenames {
 		b, err := ioutil.ReadFile(fn)
@@ -74,7 +74,7 @@ func RunReport() error {
 			return errors.Wrap(err, "could not read file")
 		}
 
-		table, err := data.Read(bytes.NewReader(b))
+		table, err := record.Read(bytes.NewReader(b))
 
 		if err != nil {
 			return errors.Wrap(err, "could not parse table")
@@ -108,7 +108,7 @@ func fillRange(start, stop time.Time) []time.Time {
 	return r
 }
 
-func totalDuration(records []*data.Record) time.Duration {
+func totalDuration(records []*record.Record) time.Duration {
 	sum := time.Duration(0)
 
 	for _, r := range records {
