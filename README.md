@@ -7,7 +7,7 @@ CLI tool for time tracking and record keeping.
 By default, this program looks for $HOME/.clock.yaml to know where to write
 to, otherwise it'll save to the `--dir` flag, otherwise $HOME/.clock.
 
-This program is a work in progress and not amazingly written.
+This program is a work in progress.
 
 ```
 Usage:
